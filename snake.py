@@ -1,12 +1,13 @@
 from turtle import Turtle, Screen
 
 # in python , use all upper case for const variables
-TURTLE_X_COORDINATE = [0, -20, -40]
+STARTING_POSITION = [(0, 0), (-20, 0), (-40, 0)]
 MOVEMENT_STEPS = 20
 UP = 90
 DOWN = 270
 LEFT = 180
 RIGHT = 0
+
 
 class Snake:
 
@@ -19,12 +20,19 @@ class Snake:
 
     def create_snake(self):
         """create the snake body"""
-        for turtle_x_index in range(0, 3):
-            tim = Turtle(shape="square")
-            tim.color("white")
-            tim.penup()
-            tim.goto(x=TURTLE_X_COORDINATE[turtle_x_index], y=0)
-            self.segments.append(tim)
+        for position in STARTING_POSITION:
+            self.add_segment(position)
+
+    def add_segment(self, position):
+        new_segment = Turtle("square")
+        new_segment.color("white")
+        new_segment.penup()
+        new_segment.goto(position)
+        self.segments.append(new_segment)
+
+    def extend(self):
+        # index -1 means the last item of the list , add one segment to the tail of the snake
+        self.add_segment(self.segments[-1].position())
 
     def move(self):
         """move the snake forward by 20px and get the 2nd and 3rd turtle to move to previous position"""
